@@ -6,6 +6,7 @@
 package com.mycompany.proyectotest;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
 /**
@@ -45,7 +46,7 @@ private static int puntuacion=0;
 
         lbl_pregunta.setText("jLabel1");
 
-        lbl_puntuacion.setText("jLabel1");
+        lbl_puntuacion.setText("0");
 
         grupo_botones.add(jRadioButton1);
         jRadioButton1.setText("jRadioButton1");
@@ -74,7 +75,7 @@ private static int puntuacion=0;
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addComponent(lbl_pregunta, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 263, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 292, Short.MAX_VALUE)
                 .addComponent(lbl_puntuacion)
                 .addGap(21, 21, 21))
             .addGroup(layout.createSequentialGroup()
@@ -119,8 +120,40 @@ private static int puntuacion=0;
         // TODO add your handling code here:
         
         //Aquí se comprueba
+        //1-Ver en qué pregunta estoy
+        PreguntaTest p=lista_preguntas.get(indice_pregunta);
+        int posicion_correcta=p.getIndice_correcto();//Esto vale 1,2,3, o 4
+        int posicion_array=posicion_correcta-1;//posicion_array vale 0,1,2 o 3
+        if(botones[posicion_array].isSelected())
+        {
+            JOptionPane.showMessageDialog(rootPane,"ENhorabuena");
+            puntuacion++;
+            actualizarPuntuacion();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(rootPane,"Has fallado, la correcta era la "+posicion_correcta);
+        }
+        
+       grupo_botones.clearSelection();
+        
+        if(indice_pregunta<lista_preguntas.size()-1)
+        {
+            indice_pregunta++;
+        mostrarPregunta();
+        }
+        else
+        {
+            //Juego terminado
+             JOptionPane.showMessageDialog(rootPane,"Gracias por jugar");
+             //accionesPostJuego
+        }
     }//GEN-LAST:event_jButton1MouseClicked
 
+    private static void actualizarPuntuacion()
+    {
+        lbl_puntuacion.setText(String.valueOf(puntuacion));
+    }
     /**
      * @param args the command line arguments
      */
